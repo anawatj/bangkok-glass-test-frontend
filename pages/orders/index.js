@@ -70,7 +70,7 @@ export default () => {
     const router = useRouter();
     const handleAddClick=()=>{
        // e.preventDefault()
-        router.push("/create");
+        router.push("/orders/create");
     }
     const render=()=>{
         return <div>
