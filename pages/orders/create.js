@@ -1,11 +1,12 @@
 import React,{useEffect,useState} from 'react'
 import Button from 'react-bootstrap/Button';
-import { listRegion,listCategory } from '../../apis/common-api';
+import { listRegion,listCategory,listCity } from '../../apis/common-api';
 export default () => {
     const [orderDate,setOrderDate] = useState('');
-    const [region,setRegion] = useState('');
+    const [regionId,setRegionId] = useState('');
     const [regions,setRegions]=useState([]);
     const [categories,setCategories]=useState([]);
+    const [cities,setCities]=useState([]);
 
     useEffect( ()=>{
        
@@ -21,6 +22,12 @@ export default () => {
         })
       
     },[])
+    const handleRegionChange = (e)=>{
+        setRegionId(e.target.value);
+        listCity(e.target.value).then(res=>{
+            setCities(res.data);
+        })
+    }
 
     const render = () => {
         return <div>
@@ -38,7 +45,7 @@ export default () => {
                     <div className='col-md-4'>
                         <div className='form-group'>
                             <label>Region</label>
-                            <select className='form-control'>
+                            <select className='form-control' onChange={(e)=>handleRegionChange(e)}>
                                 <option>Please Select</option>
                                 {regions.map(region=>{
                                     return <option key={region.value} value={region.value}>{region.text}</option>
@@ -53,6 +60,9 @@ export default () => {
                             <label>City</label>
                             <select className='form-control'>
                                 <option>Please Select</option>
+                                {cities.map(city=>{
+                                    return <option key={city.value} value={city.value}>{city.text}</option>
+                                })}
                             </select>
                         </div>
                     </div>
