@@ -48,8 +48,6 @@ export default () => {
     }
     const handleProductChange=(e)=>{
         setProductId(e.target.value);
-       // setUnitPrice(0);
-        //setTotalPrice()
         getProductById(e.target.value).then(res=>{
             setUnitPrice(res.data.unitPrice);
             setTotalPrice(quantity*res.data.unitPrice);
