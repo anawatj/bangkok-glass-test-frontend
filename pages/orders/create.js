@@ -1,6 +1,23 @@
-import React from 'react'
+import React,{useEffect,useState} from 'react'
 import Button from 'react-bootstrap/Button';
+import { listRegion } from '../../apis/common-api';
 export default () => {
+    const [orderDate,setOrderDate] = useState('');
+    const [region,setRegion] = useState('');
+    const [regions,setRegions]=useState([]);
+
+    useEffect( ()=>{
+       
+        var promiseRegion = listRegion();
+        Promise.all([
+            promiseRegion
+        ]).then(res=>{
+            console.log(JSON.stringify(res));
+            setRegions(res[0].data);
+        })
+      
+    },[])
+
     const render = () => {
         return <div>
             <form>
@@ -19,6 +36,9 @@ export default () => {
                             <label>Region</label>
                             <select className='form-control'>
                                 <option>Please Select</option>
+                                {regions.map(region=>{
+                                    return <option key={region.value} value={region.value}>{region.text}</option>
+                                })}
                             </select>
                         </div>
                     </div>
