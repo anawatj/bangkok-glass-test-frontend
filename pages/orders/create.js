@@ -1,19 +1,23 @@
 import React,{useEffect,useState} from 'react'
 import Button from 'react-bootstrap/Button';
-import { listRegion } from '../../apis/common-api';
+import { listRegion,listCategory } from '../../apis/common-api';
 export default () => {
     const [orderDate,setOrderDate] = useState('');
     const [region,setRegion] = useState('');
     const [regions,setRegions]=useState([]);
+    const [categories,setCategories]=useState([]);
 
     useEffect( ()=>{
        
         var promiseRegion = listRegion();
+        var promiseCategory = listCategory();
         Promise.all([
-            promiseRegion
+            promiseRegion,
+            promiseCategory
         ]).then(res=>{
             console.log(JSON.stringify(res));
             setRegions(res[0].data);
+            setCategories(res[1].data);
         })
       
     },[])
@@ -59,6 +63,9 @@ export default () => {
                             <label>Category</label>
                             <select className='form-control'>
                                 <option>Please Select</option>
+                                {categories.map(category=>{
+                                    return <option key={category.value} value={category.value}>{category.text}</option>
+                                })}
                             </select>
                         </div>
                     </div>
