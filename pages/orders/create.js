@@ -1,12 +1,13 @@
 import React,{useEffect,useState} from 'react'
 import Button from 'react-bootstrap/Button';
-import { listRegion,listCategory,listCity } from '../../apis/common-api';
+import { listRegion,listCategory,listCity,listProduct } from '../../apis/common-api';
 export default () => {
     const [orderDate,setOrderDate] = useState('');
     const [regionId,setRegionId] = useState('');
     const [regions,setRegions]=useState([]);
     const [categories,setCategories]=useState([]);
     const [cities,setCities]=useState([]);
+    const [products,setProducts]=useState([]);
 
     useEffect( ()=>{
        
@@ -26,6 +27,11 @@ export default () => {
         setRegionId(e.target.value);
         listCity(e.target.value).then(res=>{
             setCities(res.data);
+        })
+    }
+    const handleCategoryChange=(e)=>{
+        listProduct(e.target.value).then(res=>{
+            setProducts(res.data);
         })
     }
 
@@ -58,7 +64,7 @@ export default () => {
                     <div className='col-md-4'>
                         <div className='form-group'>
                             <label>City</label>
-                            <select className='form-control'>
+                            <select className='form-control' >
                                 <option>Please Select</option>
                                 {cities.map(city=>{
                                     return <option key={city.value} value={city.value}>{city.text}</option>
@@ -71,7 +77,7 @@ export default () => {
                     <div className='col-md-4'>
                         <div className='form-group'>
                             <label>Category</label>
-                            <select className='form-control'>
+                            <select className='form-control' onChange={(e)=>handleCategoryChange(e)}>
                                 <option>Please Select</option>
                                 {categories.map(category=>{
                                     return <option key={category.value} value={category.value}>{category.text}</option>
@@ -86,6 +92,9 @@ export default () => {
                             <label>Product</label>
                             <select className='form-control'>
                                 <option>Please Select</option>
+                                {products.map(product=>{
+                                    return <option key={product.value} value={product.value}>{product.text}</option>
+                                })}
                             </select>
                         </div>
                     </div>

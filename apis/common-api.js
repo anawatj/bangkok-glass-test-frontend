@@ -10,3 +10,7 @@ export const listCategory = async()=>{
 export const listCity = async(regionId)=>{
     return axios.get(BACKEND_API+"/api/Common/regions/"+regionId+"/cities");
 }
+
+export const listProduct = async(categoryId)=>{
+    return axios.get(BACKEND_API+"/api/Common/categories/"+categoryId+"/products");
+}
